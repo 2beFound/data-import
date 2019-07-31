@@ -11,9 +11,9 @@ class StringToObjectConverterTest extends \PHPUnit_Framework_TestCase
 {
     public function testConvert()
     {
-        $repository = $this->getMock(
+        $repository = $this->createMock(
             'Doctrine\\Common\\Persistence\\ObjectRepository',
-            array('find', 'findAll', 'findBy', 'findOneBy', 'getClassName', 'findOneByName')
+            array('find', 'findAll', 'findBy', 'findOneBy', 'getClassName')
         );
 
         $converter = new StringToObjectConverter($repository, 'name');
@@ -21,8 +21,8 @@ class StringToObjectConverterTest extends \PHPUnit_Framework_TestCase
         $class = new \stdClass();
 
         $repository->expects($this->once())
-            ->method('findOneByName')
-            ->with('bar')
+            ->method('findOneBy')
+            ->with(['name' => 'bar'])
             ->will($this->returnValue($class));
 
         $this->assertEquals($class, $converter->convert('bar'));

@@ -267,7 +267,7 @@ class WorkflowTest extends \PHPUnit_Framework_TestCase
         $reader = new ArrayReader($originalData);
 
         $array = array();
-        $writer = $this->getMock('Ddeboer\DataImport\Writer\ArrayWriter', array(), array(&$array));
+        $writer = $this->createMock('Ddeboer\DataImport\Writer\ArrayWriter', array(), array(&$array));
 
         $exception = new SourceNotFoundException("Log me!");
 
@@ -276,7 +276,7 @@ class WorkflowTest extends \PHPUnit_Framework_TestCase
             ->with($originalData[0])
             ->will($this->throwException($exception));
 
-        $logger = $this->getMock('Psr\Log\LoggerInterface');
+        $logger = $this->createMock('Psr\Log\LoggerInterface');
         $logger->expects($this->once())
             ->method('error')
             ->with($exception->getMessage());
@@ -301,7 +301,7 @@ class WorkflowTest extends \PHPUnit_Framework_TestCase
 
     public function testWorkflowThrowsExceptionIfNameNotString()
     {
-        $reader = $this->getMock('Ddeboer\DataImport\Reader\ReaderInterface');
+        $reader = $this->createMock('Ddeboer\DataImport\Reader\ReaderInterface');
         $this->setExpectedException("InvalidArgumentException", "Name identifier should be a string. Given: 'stdClass'");
         $workflow = new Workflow($reader, null, new \stdClass);
     }
@@ -356,7 +356,7 @@ class WorkflowTest extends \PHPUnit_Framework_TestCase
     {
         $workflow   = $this->getWorkflow();
         $workflow->setSkipItemOnFailure(true);
-        $writer     = $this->getMock('Ddeboer\DataImport\Writer\WriterInterface');
+        $writer     = $this->createMock('Ddeboer\DataImport\Writer\WriterInterface');
 
         $e = new WriterException();
 

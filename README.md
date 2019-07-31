@@ -1,3 +1,6 @@
+Fork for php 7.3 compatibility
+===========================
+
 Ddeboer Data Import library
 ===========================
 [![Build Status](https://travis-ci.org/ddeboer/data-import.svg?branch=master)](https://travis-ci.org/ddeboer/data-import)

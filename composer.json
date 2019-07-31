@@ -1,5 +1,5 @@
 {
-    "name": "ddeboer/data-import",
+    "name": "2befound/data-import",
     "description": "Import data from, and export data to, a range of file formats and media",
     "keywords": [ "data", "import", "export", "csv", "excel", "doctrine" ],
     "license": "MIT",
@@ -7,6 +7,10 @@
         {
             "name": "David de Boer",
             "email": "david@ddeboer.nl"
+        },
+        {
+            "name": "Christoph Rosse",
+            "email": "crosse@2bepublished.at"
         },
         {
             "name": "The community",
@@ -27,10 +31,10 @@
         "ext-sqlite3": "*",
         "symfony/property-access": "*",
         "phpoffice/phpexcel": "*",
-        "doctrine/dbal": "*",
-        "doctrine/orm": "*",
+        "doctrine/dbal": "2.5.*",
+        "doctrine/orm": "2.5.*",
         "symfony/console": "~2.5.0",
-        "symfony/validator": "~2.3.0"
+        "symfony/validator": "3.0.*"
     },
     "suggest": {
         "ext-iconv": "For the CharsetValueConverter",

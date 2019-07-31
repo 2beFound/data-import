@@ -2,10 +2,10 @@
 
 namespace Ddeboer\DataImport\Filter;
 
-use Symfony\Component\Validator\ValidatorInterface;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\Constraints;
 use Ddeboer\DataImport\Exception\ValidationException;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class ValidatorFilter implements FilterInterface
 {
@@ -59,10 +59,14 @@ class ValidatorFilter implements FilterInterface
         }
 
         $constraints = new Constraints\Collection($this->constraints);
-        $list = $this->validator->validateValue($item, $constraints);
+        $list = $this->validator->validate($item, $constraints);
         $currentLine = $this->line++;
 
-        if (count($list) > 0) {
+        if (!$list) {
+            return true;
+        }
+
+        if ($list->count() > 0) {
             $this->violations[$currentLine] = $list;
 
             if ($this->throwExceptions) {
@@ -70,7 +74,7 @@ class ValidatorFilter implements FilterInterface
             }
         }
 
-        return 0 === count($list);
+        return 0 === $list->count();
     }
 
     /**

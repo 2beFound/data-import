@@ -3,8 +3,8 @@
 namespace Ddeboer\DataImport\Writer;
 
 use Ddeboer\DataImport\Writer;
-use PHPExcel;
-use PHPExcel_IOFactory;
+use \PhpOffice\PhpSpreadsheet\Spreadsheet;
+use \PhpOffice\PhpSpreadsheet\IOFactory;
 
 /**
  * Writes to an Excel file
@@ -34,7 +34,7 @@ class ExcelWriter implements Writer
     protected $prependHeaderRow;
 
     /**
-     * @var PHPExcel
+     * @var \PhpOffice\PhpSpreadsheet\Spreadsheet
      */
     protected $excel;
 
@@ -62,11 +62,11 @@ class ExcelWriter implements Writer
      */
     public function prepare()
     {
-        $reader = PHPExcel_IOFactory::createReader($this->type);
+        $reader = \PhpOffice\PhpSpreadsheet\IOFactory::createReader($this->type);
         if ($reader->canRead($this->filename)) {
             $this->excel = $reader->load($this->filename);
         } else {
-            $this->excel = new PHPExcel();
+            $this->excel = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
             if(null !== $this->sheet && !$this->excel->sheetNameExists($this->sheet))
             {
                 $this->excel->removeSheetByIndex(0);
@@ -111,7 +111,7 @@ class ExcelWriter implements Writer
      */
     public function finish()
     {
-        $writer = \PHPExcel_IOFactory::createWriter($this->excel, $this->type);
+        $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($this->excel, $this->type);
         $writer->save($this->filename);
     }
 }

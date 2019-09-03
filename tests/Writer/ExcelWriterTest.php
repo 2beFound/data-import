@@ -48,7 +48,7 @@ class ExcelWriterTest extends \PHPUnit_Framework_TestCase
 
         $writer->finish();
 
-        $excel = \PHPExcel_IOFactory::load($file);
+        $excel = \PhpOffice\PhpSpreadsheet\IOFactory::load($file);
 
         $this->assertTrue($excel->sheetNameExists('Sheet 1'));
         $this->assertEquals(3, $excel->getSheetByName('Sheet 1')->getHighestRow());
@@ -88,7 +88,7 @@ class ExcelWriterTest extends \PHPUnit_Framework_TestCase
         ));
         $writer->finish();
 
-        $excel = \PHPExcel_IOFactory::load($file);
+        $excel = \PhpOffice\PhpSpreadsheet\IOFactory::load($file);
         $sheet = $excel->getActiveSheet()->toArray();
 
         # Values should be at first line
@@ -116,7 +116,7 @@ class ExcelWriterTest extends \PHPUnit_Framework_TestCase
         ));
         $writer->finish();
 
-        $excel = \PHPExcel_IOFactory::load($file);
+        $excel = \PhpOffice\PhpSpreadsheet\IOFactory::load($file);
         $sheet = $excel->getActiveSheet()->toArray();
 
         # Check column names at first line

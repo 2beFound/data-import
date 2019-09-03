@@ -318,7 +318,7 @@ $reader = new DoctrineReader($entityManager, 'Your\Namespace\Entity\User');
 
 #### ExcelReader
 
-Acts as an adapter for the [PHPExcel library](https://github.com/PHPOffice/PHPExcel). Make sure
+Acts as an adapter for the [\PhpOffice\PhpSpreadsheet\Spreadsheet library](https://github.com/PHPOffice/\PhpOffice\PhpSpreadsheet\Spreadsheet). Make sure
 to include that library in your project:
 
 ```bash
@@ -513,7 +513,7 @@ $writer = new PdoWriter($pdo, 'my_table');
 
 #### ExcelWriter
 
-Writes data to an Excel file. It requires the PHPExcel package:
+Writes data to an Excel file. It requires the \PhpOffice\PhpSpreadsheet\Spreadsheet package:
 
 ```bash
 $ composer require phpoffice/phpexcel

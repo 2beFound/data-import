@@ -3,14 +3,14 @@
 namespace Ddeboer\DataImport\Reader;
 
 /**
- * Reads Excel files with the help of PHPExcel
+ * Reads Excel files with the help of \PhpOffice\PhpSpreadsheet\Spreadsheet
  *
- * PHPExcel must be installed.
+ * \PhpOffice\PhpSpreadsheet\Spreadsheet must be installed.
  *
  * @author David de Boer <david@ddeboer.nl>
  *
  * @link http://phpexcel.codeplex.com/
- * @link https://github.com/logiQ/PHPExcel
+ * @link https://github.com/logiQ/\PhpOffice\PhpSpreadsheet\Spreadsheet
  */
 class ExcelReader implements CountableReader, \SeekableIterator
 {
@@ -49,9 +49,9 @@ class ExcelReader implements CountableReader, \SeekableIterator
      */
     public function __construct(\SplFileObject $file, $headerRowNumber = null, $activeSheet = null, $readOnly = true)
     {
-        $reader = \PHPExcel_IOFactory::createReaderForFile($file->getPathName());
+        $reader = \PhpOffice\PhpSpreadsheet\IOFactory::createReaderForFile($file->getPathName());
         $reader->setReadDataOnly($readOnly);
-        /** @var \PHPExcel $excel */
+        /** @var \PhpOffice\PhpSpreadsheet\Spreadsheet $excel */
         $excel = $reader->load($file->getPathname());
 
         if (null !== $activeSheet) {

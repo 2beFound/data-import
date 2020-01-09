@@ -25,16 +25,16 @@ class ExcelReader implements ReaderInterface
     protected $count;
 
     /**
-     * Construct CSV reader
-     *
      * @param \SplFileObject $file            Excel file
-     * @param int            $headerRowNumber Optional number of header row
-     * @param int            $activeSheet     Index of active sheet to read from
+     * @param integer        $headerRowNumber Optional number of header row
+     * @param integer        $activeSheet     Index of active sheet to read from
+     * @param boolean        $readOnly        If set to false, the reader take care of the excel formatting (slow)
      */
-    public function __construct(\SplFileObject $file, $headerRowNumber = null, $activeSheet = null)
+    public function __construct(\SplFileObject $file, $headerRowNumber = null, $activeSheet = null, $readOnly = true)
     {
-        $reader = \PHPExcel_IOFactory::createReaderForFile($file->getPathName());
-        $reader->setReadDataOnly(true);
+        $reader = \PhpOffice\PhpSpreadsheet\IOFactory::createReaderForFile($file->getPathName());
+        $reader->setReadDataOnly($readOnly);
+        /** @var \PhpOffice\PhpSpreadsheet\Spreadsheet $excel */
         $excel = $reader->load($file->getPathname());
 
         if (null !== $activeSheet) {

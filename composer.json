@@ -30,11 +30,11 @@
         "ext-mbstring": "*",
         "ext-sqlite3": "*",
         "symfony/property-access": "*",
-        "phpoffice/phpexcel": "*",
         "doctrine/dbal": "2.5.*",
         "doctrine/orm": "2.5.*",
         "symfony/console": "~2.5.0",
-        "symfony/validator": "3.0.*"
+        "symfony/validator": "3.0.*",
+        "phpoffice/phpspreadsheet": "^1.9"
     },
     "suggest": {
         "ext-iconv": "For the CharsetValueConverter",

@@ -12,7 +12,7 @@ namespace Ddeboer\DataImport\Reader;
  * @link http://phpexcel.codeplex.com/
  * @link https://github.com/logiQ/PHPExcel
  */
-class ExcelReader implements CountableReader, \SeekableIterator
+class ExcelReader implements ReaderInterface
 {
     /**
      * @var array
@@ -49,9 +49,9 @@ class ExcelReader implements CountableReader, \SeekableIterator
      */
     public function __construct(\SplFileObject $file, $headerRowNumber = null, $activeSheet = null, $readOnly = true)
     {
-        $reader = \PHPExcel_IOFactory::createReaderForFile($file->getPathName());
+        $reader = \PhpOffice\PhpSpreadsheet\IOFactory::createReaderForFile($file->getPathName());
         $reader->setReadDataOnly($readOnly);
-        /** @var \PHPExcel $excel */
+        /** @var \PhpOffice\PhpSpreadsheet\Spreadsheet $excel */
         $excel = $reader->load($file->getPathname());
 
         if (null !== $activeSheet) {
@@ -104,10 +104,14 @@ class ExcelReader implements CountableReader, \SeekableIterator
      * Set column headers
      *
      * @param array $columnHeaders
+     *
+     * @return $this
      */
     public function setColumnHeaders(array $columnHeaders)
     {
         $this->columnHeaders = $columnHeaders;
+
+        return $this;
     }
 
     /**
@@ -129,12 +133,16 @@ class ExcelReader implements CountableReader, \SeekableIterator
     /**
      * Set header row number
      *
-     * @param integer $rowNumber Number of the row that contains column header names
+     * @param int $rowNumber Number of the row that contains column header names
+     *
+     * @return $this
      */
     public function setHeaderRowNumber($rowNumber)
     {
         $this->headerRowNumber = $rowNumber;
         $this->columnHeaders = $this->worksheet[$rowNumber];
+
+        return $this;
     }
 
     /**
@@ -193,7 +201,7 @@ class ExcelReader implements CountableReader, \SeekableIterator
     /**
      * Get a row
      *
-     * @param integer $number
+     * @param int $number Row number
      *
      * @return array
      */

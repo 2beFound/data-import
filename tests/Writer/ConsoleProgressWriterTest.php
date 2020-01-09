@@ -25,7 +25,7 @@ class ConsoleProgressWriterTest extends \PHPUnit_Framework_TestCase
         $output = $this->getMockBuilder('Symfony\Component\Console\Output\OutputInterface')
             ->getMock();
 
-        $outputFormatter = $this->getMock('Symfony\Component\Console\Formatter\OutputFormatterInterface');
+        $outputFormatter = $this->createMock('Symfony\Component\Console\Formatter\OutputFormatterInterface');
         $output->expects($this->once())
             ->method('isDecorated')
             ->will($this->returnValue(true));

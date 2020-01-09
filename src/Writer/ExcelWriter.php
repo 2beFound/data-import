@@ -2,16 +2,15 @@
 
 namespace Ddeboer\DataImport\Writer;
 
-use Ddeboer\DataImport\Writer;
-use PHPExcel;
-use PHPExcel_IOFactory;
+use \PhpOffice\PhpSpreadsheet\Spreadsheet;
+use \PhpOffice\PhpSpreadsheet\IOFactory;
 
 /**
  * Writes to an Excel file
  *
  * @author David de Boer <david@ddeboer.nl>
  */
-class ExcelWriter implements Writer
+class ExcelWriter extends AbstractWriter
 {
     /**
      * @var string
@@ -34,20 +33,22 @@ class ExcelWriter implements Writer
     protected $prependHeaderRow;
 
     /**
-     * @var PHPExcel
+     * @var \PhpOffice\PhpSpreadsheet\Spreadsheet
      */
     protected $excel;
 
     /**
-     * @var integer
+     * @var int
      */
     protected $row = 1;
 
     /**
+     * Constructor
+     *
      * @param \SplFileObject $file  File
      * @param string         $sheet Sheet title (optional)
-     * @param string         $type  Excel file type (defaults to Excel2007)
-     * @param boolean        $prependHeaderRow
+     * @param string         $type  Excel file type (optional, defaults to
+     *                              Excel2007)
      */
     public function __construct(\SplFileObject $file, $sheet = null, $type = 'Excel2007', $prependHeaderRow = false)
     {
@@ -62,11 +63,11 @@ class ExcelWriter implements Writer
      */
     public function prepare()
     {
-        $reader = PHPExcel_IOFactory::createReader($this->type);
+        $reader = \PhpOffice\PhpSpreadsheet\IOFactory::createReader($this->type);
         if ($reader->canRead($this->filename)) {
             $this->excel = $reader->load($this->filename);
         } else {
-            $this->excel = new PHPExcel();
+            $this->excel = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
             if(null !== $this->sheet && !$this->excel->sheetNameExists($this->sheet))
             {
                 $this->excel->removeSheetByIndex(0);
@@ -79,6 +80,8 @@ class ExcelWriter implements Writer
             }
             $this->excel->setActiveSheetIndexByName($this->sheet);
         }
+
+        return $this;
     }
 
     /**
@@ -104,6 +107,8 @@ class ExcelWriter implements Writer
         }
 
         $this->row++;
+
+        return $this;
     }
 
     /**
@@ -111,7 +116,9 @@ class ExcelWriter implements Writer
      */
     public function finish()
     {
-        $writer = \PHPExcel_IOFactory::createWriter($this->excel, $this->type);
+        $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($this->excel, $this->type);
         $writer->save($this->filename);
+
+        return $this;
     }
 }

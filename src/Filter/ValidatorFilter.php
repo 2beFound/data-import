@@ -2,10 +2,10 @@
 
 namespace Ddeboer\DataImport\Filter;
 
-use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\Constraints;
 use Ddeboer\DataImport\Exception\ValidationException;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
  * @author Markus Bachmann <markus.bachmann@bachi.biz>
@@ -104,7 +104,11 @@ class ValidatorFilter
         $list = $this->validator->validate($item, $constraints);
         $currentLine = $this->line++;
 
-        if (count($list) > 0) {
+        if (!$list) {
+            return true;
+        }
+
+        if ($list->count() > 0) {
             $this->violations[$currentLine] = $list;
 
             if ($this->throwExceptions) {
@@ -112,6 +116,14 @@ class ValidatorFilter
             }
         }
 
-        return 0 === count($list);
+        return 0 === $list->count();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getPriority()
+    {
+        return 256;
     }
 }

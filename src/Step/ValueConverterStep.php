@@ -33,14 +33,28 @@ class ValueConverterStep implements Step
      */
     public function process(&$item)
     {
-        $accessor = new PropertyAccessor();
-
-        foreach ($this->converters as $property => $converters) {
-            foreach ($converters as $converter) {
-                $orgValue = $accessor->getValue($item, $property);
-                $value = call_user_func($converter, $orgValue);
-                $accessor->setValue($item,$property,$value);
+        if (is_array($item)) {
+            foreach ($this->converters as $property => $converters) {
+                foreach ($converters as $converter) {
+                    if (array_key_exists($property, $item)) {
+                        $orgValue = $item[$property];
+                        $value = call_user_func($converter, $orgValue);
+                        $item[$property] = $value;
+                    }
+                }
             }
+        } elseif (is_object($item)) {
+            $accessor = new PropertyAccessor();
+
+            foreach ($this->converters as $property => $converters) {
+                foreach ($converters as $converter) {
+                    $orgValue = $accessor->getValue($item, $property);
+                    $value = call_user_func($converter, $orgValue);
+                    $accessor->setValue($item,$property,$value);
+                }
+            }
+        } else {
+            throw new \RuntimeException('neither object nor array, unable to process');
         }
 
         return true;
